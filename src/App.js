@@ -1,23 +1,85 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./component/Header";
+import "./App.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { useState } from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function App() {
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [data,setData] = useState([]);
+
+  const addData = ()=>{
+    setData([...data,{name,email}]);
+    setName("");
+    setEmail("");
+  }
+
+  const deleteData = (i)=>{
+    let tempArr = data;
+    tempArr.splice(i,1);
+    setData([...tempArr]);
+  }
+
+  let handlePress = (e)=>{
+    if(e.key == "Enter"){
+      addData();
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className="input">
+        <Stack direction="row" spacing={2}>
+          <TextField
+            onKeyPress={(e)=>{handlePress(e)}}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+          />
+          <TextField
+          onKeyPress={(e)=>{handlePress(e)}}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+          />
+          <Button onClick={addData} variant="contained" color="success">
+            ADD
+          </Button>
+        </Stack>
+      </div>
+      
+      <div className="data">
+        <div className="datatitle" style={{color:"rgb(4, 182, 114)"}}>
+          <h2>Name</h2>
+          <h2>Email</h2>
+          <h2>Remove</h2>
+        </div>
+        {
+        data.map((el,i)=>{
+          return(
+            <div key={i} className="datatitle">
+            <h3>{el.name}</h3>
+            <h3>{el.email}</h3>
+            <Stack>
+            <Button onClick={() => deleteData(i)} variant="contained" color="error"><DeleteIcon /></Button>
+            </Stack>
+      </div>
+          )
+        })
+      }
+      </div>
     </div>
   );
 }
