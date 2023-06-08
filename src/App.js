@@ -9,12 +9,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function App() {
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
+  // const [detail,setDetail] = useState({});
   const [data,setData] = useState([]);
 
   const addData = ()=>{
+    if(name !== "" || email !== ""){
     setData([...data,{name,email}]);
+    }
     setName("");
     setEmail("");
+    // setDetail(detail);
   }
 
   const deleteData = (i)=>{
@@ -24,7 +28,7 @@ function App() {
   }
 
   let handlePress = (e)=>{
-    if(e.key == "Enter"){
+    if(e.key === "Enter" && (name !== "" || email !== "")){
       addData();
     }
   }
